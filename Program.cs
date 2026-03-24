@@ -5,6 +5,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+SQLitePCL.Batteries.Init();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -105,11 +105,19 @@
       "User": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
           "email": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "senha": {
             "type": "string",
             "nullable": true
           },
