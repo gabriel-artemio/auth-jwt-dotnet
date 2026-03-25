@@ -35,19 +35,29 @@ namespace AuthJwtWebApi.Controllers
                 {
                     cn.Open();
 
-                    var usuario = _userDAL.GetLogin(cn, login.Email, login.Senha);
+                    var usuario = _userDAL.GetByEmail(cn, login.Email);
 
                     if (usuario == null)
                     {
                         return Unauthorized("Usuário ou senha inválidos.");
                     }
 
+                    var hash = PasswordHelper.HashPassword("123");
+
+                    var teste = PasswordHelper.VerifyPassword("123", hash);
+
+                    Console.WriteLine(teste); // tem que dar TRUE
+
+                    var senhaValida = PasswordHelper.VerifyPassword(login.Senha, usuario.Senha);
+
+                    if (!senhaValida)
+                    {
+                        return Unauthorized("Usuário ou senha inválidos.");
+                    }
+
                     var token = _tokenService.GenerateToken(usuario);
 
-                    return Ok(new
-                    {
-                        token
-                    });
+                    return Ok(new { token });
                 }
             }
             catch (Exception ex)

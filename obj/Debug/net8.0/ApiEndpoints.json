@@ -17,8 +17,24 @@
   },
   {
     "ContainingType": "AuthJwtWebApi.Controllers.DashboardController",
-    "Method": "Get",
+    "Method": "Create",
     "RelativePath": "api/Dashboard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "AuthJwtWebApi.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthJwtWebApi.Controllers.DashboardController",
+    "Method": "Admin",
+    "RelativePath": "api/Dashboard/admin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -27,8 +43,8 @@
   },
   {
     "ContainingType": "AuthJwtWebApi.Controllers.DashboardController",
-    "Method": "Admin",
-    "RelativePath": "api/Dashboard/admin",
+    "Method": "User",
+    "RelativePath": "api/Dashboard/user",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/Dashboard": {
+    "/api/Dashboard/admin": {
       "get": {
         "tags": [
           "Dashboard"
@@ -48,11 +48,42 @@
         }
       }
     },
-    "/api/Dashboard/admin": {
+    "/api/Dashboard/user": {
       "get": {
         "tags": [
           "Dashboard"
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Dashboard": {
+      "post": {
+        "tags": [
+          "Dashboard"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -151,6 +182,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Digite: Bearer {seu token}",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AuthJwtWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9357955ba5f8f96b8c02ef302af1040a6eeb169")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95a40c6cb8ab331831eca1178ff8fe21a6d4c3d6")]
 [assembly: System.Reflection.AssemblyProductAttribute("AuthJwtWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AuthJwtWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

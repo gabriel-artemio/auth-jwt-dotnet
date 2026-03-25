@@ -1,55 +1,75 @@
 ﻿using AuthJwtWebApi.Models;
 using System.Data.Common;
-using System.Text;
 
 namespace AuthJwtWebApi.DAL
 {
     public class UserDAL
     {
-        public User? GetLogin(DbConnection cn, string email, string senha)
+        public User? GetByEmail(DbConnection cn, string email)
         {
-            return GetAll(cn, email, senha).FirstOrDefault();
-        }
-        public List<User> GetAll(DbConnection cn)
-        {
-            return GetAll(cn, string.Empty, string.Empty);
-        }
-        private List<User> GetAll(DbConnection cn, string email, string senha)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT ");
-            sb.Append("id, nome, email, senha, role ");
-            sb.Append("FROM usuario ");
-            sb.Append("WHERE 1 = 1 ");
+            string sql = "SELECT id, nome, email, senha, role FROM usuario WHERE email = @Email";
 
-            List<DbParameter> p = new List<DbParameter>();
-            if (!String.IsNullOrEmpty(email) && !String.IsNullOrEmpty(senha))
+            using (var cmd = cn.CreateCommand())
             {
-                sb.AppendFormat(" AND email = '{0}'", email);
-                sb.AppendFormat(" AND senha = '{0}'", senha);
-            }
+                cmd.CommandText = sql;
 
-            List<User> list = new List<User>();
-            using (DbCommand cmd = cn.CreateCommand())
-            {
-                cmd.CommandText = sb.ToString();
-                cmd.Parameters.AddRange(p.ToArray());
-                using (DbDataReader dr = cmd.ExecuteReader())
+                var param = cmd.CreateParameter();
+                param.ParameterName = "@Email";
+                param.Value = email;
+                cmd.Parameters.Add(param);
+
+                using (var dr = cmd.ExecuteReader())
                 {
-                    while (dr.Read())
+                    if (dr.Read())
                     {
-                        list.Add(new User
+                        return new User
                         {
                             Id = dr.GetInt32(0),
                             Nome = dr.GetString(1),
                             Email = dr.GetString(2),
-                            Senha = dr.GetString(3),
+                            Senha = dr.GetString(3), // HASH
                             Role = dr.GetString(4)
-                        });
+                        };
                     }
                 }
             }
-            return list;
+
+            return null;
+        }
+        public void Insert(DbConnection cn, User user)
+        {
+            string sql = @"
+                INSERT INTO usuario (nome, email, senha, role)
+                VALUES (@Nome, @Email, @Senha, @Role)
+            ";
+
+            using (var cmd = cn.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                var p1 = cmd.CreateParameter();
+                p1.ParameterName = "@Nome";
+                p1.Value = user.Nome;
+
+                var p2 = cmd.CreateParameter();
+                p2.ParameterName = "@Email";
+                p2.Value = user.Email;
+
+                var p3 = cmd.CreateParameter();
+                p3.ParameterName = "@Senha";
+                p3.Value = user.Senha;
+
+                var p4 = cmd.CreateParameter();
+                p4.ParameterName = "@Role";
+                p4.Value = user.Role;
+
+                cmd.Parameters.Add(p1);
+                cmd.Parameters.Add(p2);
+                cmd.Parameters.Add(p3);
+                cmd.Parameters.Add(p4);
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
